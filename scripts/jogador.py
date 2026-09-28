@@ -7,9 +7,10 @@ class Jogador:
         self.tamanho = (50, 30)
         self.velocidade = 6
         self.vidas = 3
-        self.rect = pygame.Rect(self.posicao[0], self.posicao[1], self.tamanho[0], self.tamanho[1])
-        self.cor_corpo = (46, 139, 87)
-        self.cor_janela = (135, 206, 235)
+        imagem_original = pygame.image.load("assets/drone.png").convert_alpha()
+        self.imagem = pygame.transform.scale(imagem_original, self.tamanho)
+        self.rect = self.imagem.get_rect()
+        self.rect.topleft = (self.posicao[0], self.posicao[1])
 
     def atualizar(self):
         teclas = pygame.key.get_pressed()
@@ -27,11 +28,7 @@ class Jogador:
         self.rect.topleft = (self.posicao[0], self.posicao[1])
 
     def desenhar(self):
-        pygame.draw.ellipse(self.tela, self.cor_corpo, self.rect)
-        janela = pygame.Rect(self.posicao[0] + 10, self.posicao[1] + 5, 20, 15)
-        pygame.draw.ellipse(self.tela, self.cor_janela, janela)
-        pygame.draw.rect(self.tela, (0, 100, 0), (self.posicao[0] - 5, self.posicao[1] + 8, 10, 14))
-        pygame.draw.rect(self.tela, (0, 100, 0), (self.posicao[0] + self.tamanho[0] - 5, self.posicao[1] + 8, 10, 14))
+         self.tela.blit(self.imagem, self.rect)
 
     def get_rect(self):
         return self.rect

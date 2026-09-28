@@ -4,28 +4,28 @@ import random
 class Animal:
     ESPECIES = {
         "Amazônia": [
-            {"nome": "Mico-leão-dourado", "cor": (255, 215, 0)},
-            {"nome": "Peixe-boi", "cor": (70, 130, 180)},
+            {"nome": "Mico-leão-dourado", "imagem": "assets/mico_leao.png"},
+            {"nome": "Peixe-boi", "imagem": "assets/peixe_boi.png"},
         ],
         "Caatinga": [
-            {"nome": "Ararinha-azul", "cor": (0, 100, 255)},
-            {"nome": "Tatu-bola", "cor": (160, 82, 45)},
+            {"nome": "Ararinha-azul", "imagem": "assets/ararinha.png"},
+            {"nome": "Tatu-bola", "imagem": "assets/tatu.png"},
         ],
         "Cerrado": [
-            {"nome": "Lobo-guará", "cor": (210, 105, 30)},
-            {"nome": "Tamanduá-bandeira", "cor": (139, 90, 43)},
+            {"nome": "Lobo-guará", "imagem": "assets/lobo_guara.png"},
+            {"nome": "Tamanduá-bandeira", "imagem": "assets/tamandua.png"},
         ],
         "Mata Atlântica": [
-            {"nome": "Jacutinga", "cor": (0, 100, 0)},
-            {"nome": "Mico-leão-preto", "cor": (40, 40, 40)},
+            {"nome": "Jacutinga", "imagem": "assets/jacutinga.png"},
+            {"nome": "Tucano", "imagem": "tucano.png"},
         ],
         "Pampa": [
-            {"nome": "Saci-da-praia", "cor": (255, 165, 0)},
-            {"nome": "Tuco-tuco", "cor": (139, 69, 19)},
+            {"nome": "Veado-campeiro", "imagem": "assets/veado.png"},
+            {"nome": "Tuco-tuco", "imagem": "assets/tuco_tuco.png"},
         ],
         "Pantanal": [
-            {"nome": "Onça-pintada", "cor": (255, 140, 0)},
-            {"nome": "Tuiuiú", "cor": (255, 255, 255)},
+            {"nome": "Onça-pintada", "imagem": "assets/onca.png"},
+            {"nome": "Tuiuiú", "imagem": "assets/tuiuiu.png"},
         ],
     }
 
@@ -39,6 +39,8 @@ class Animal:
         self.velocidade = velocidade
         self.rect = pygame.Rect(self.x, self.y, self.tamanho[0], self.tamanho[1])
         self.coletado = False
+        imagem_original = pygame.image.load(self.info["imagem"]).convert_alpha()
+        self.imagem = pygame.transform.scale(imagem_original, self.tamanho)
 
     def atualizar(self):
         if not self.coletado:
@@ -47,9 +49,7 @@ class Animal:
 
     def desenhar(self):
         if not self.coletado:
-            pygame.draw.ellipse(self.tela, self.info["cor"], self.rect)
-            pygame.draw.circle(self.tela, (0, 0, 0), (self.x + 30, self.y + 12), 4)
-            pygame.draw.circle(self.tela, (255, 255, 255), (self.x + 31, self.y + 11), 2)
+            self.tela.blit(self.imagem, (self.x, self.y))
 
     def saiu_da_tela(self):
         return self.x + self.tamanho[0] < 0
